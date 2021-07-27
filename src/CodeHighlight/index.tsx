@@ -1,5 +1,7 @@
 import * as React from "react";
 import {refractor} from "refractor";
+import extras from "refractor/lang/js-extras";
+import jsx from "refractor/lang/jsx";
 import {last, omit} from "lodash";
 import classnames from 'classnames';
 import './index.css'
@@ -69,19 +71,16 @@ const toTokenTree = tree => {
 
 export const CodeHighlight: React.FC<Props> = (props) => {
     const {lang, source} = props;
-
+    refractor.register(extras)
+    refractor.register(jsx);
     const tokenTree = toTokenTree(refractor.highlight(source, lang));
 // @ts-ignore
     const td = (item) => {
         // @ts-ignore
         return item.map(token => {
-            console.log(token);
-            if (token[0].type === 'text') {
-                return <span>{token[0].value}</span>
-            } else {
-                console.log(token[0]);
-                return <span className={classnames(...token[0].properties.className)}>{token[1].value}</span>
-            }
+            const textToken: any = last(token);
+            const className: string[] = token[0]?.properties?.className || [];
+            return <span className={classnames(...className)}>{textToken.value}</span>
         })
     }
 

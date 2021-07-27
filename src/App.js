@@ -4,7 +4,8 @@ import {CodeHighlight} from "./CodeHighlight";
 
 function App() {
     const source = `
-    const element = document.getElementById('some-element-you-want-to-animate');
+import React from 'react';
+const element = document.getElementById('some-element-you-want-to-animate');
 let start;
 
 function step(timestamp) {
